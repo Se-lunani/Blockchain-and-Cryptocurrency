@@ -9,7 +9,9 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
-def add_transaction(transaction_amount, last_transaction=[1]):
+def add_transaction(transaction_amount, last_transaction=None):
+    if last_transaction is None:
+        last_transaction = [1]
     if last_transaction == None:
         last_transaction = [1]
     blockchain.append([last_transaction, transaction_amount])
@@ -29,8 +31,26 @@ def get_user_choice():
 def print_block_elements():
     # output the blockchain list to the console
     for block in blockchain:
-        print('outputting block')
+        print('Outputting block')
         print(block)
+
+def verify_chain():
+    block_index = 0
+    is_valid = True
+    for block in blockchain:
+        if block_index == 0:
+            block_index += 1
+            continue
+        elif block[0]== blockchain[block_index-1]:
+            is_valid = True
+        else:
+            is_valid = False
+            break
+        block_index += 1
+    return is_valid
+
+
+
 
 
 while True:
@@ -46,12 +66,15 @@ while True:
     elif user_choice == '2':
         print_block_elements()
     elif user_choice == 'h':
-        if len(blockchain)>=1:
-         blockchain[0]=[2]
+        if len(blockchain) >= 1:
+         blockchain[0] = [2]
     elif user_choice == 'q':
         break
     else:
         print('Your input is invalid')
-    print('choice registered!')
+    if not verify_chain():
+        print('invalid blockchain')
+        break
 
-print('done')
+print('Done!')
+
