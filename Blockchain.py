@@ -26,9 +26,10 @@ def add_transaction (recepient, sender=owner,amount=1.0):
 
 def mine_block():
     last_block = blockchain[-1]
-    hashed_blocked = ''
-    for keys in last_block:
-        value = last_block[keys]
+    hashed_blocked = str([last_block[key] for key in last_block])
+    print(hashed_blocked)
+    for key in last_block:
+        value = last_block[key]
         hashed_blocked = hashed_blocked + str(value)
     print (hashed_blocked)
     block = {'previous_hash': 'hashed_block',
