@@ -1,5 +1,10 @@
 # initializing the blockchain list
-blockchain = []
+genesis_block = {
+        'previous_hash':'',
+        'index': 0,
+        'transaction': []
+}
+blockchain = [genesis_block]
 open_transactions = []
 owner = 'Evan'
 
@@ -20,7 +25,18 @@ def add_transaction (recepient, sender=owner,amount=1.0):
 
 
 def mine_block():
-    pass
+    last_block = blockchain[-1]
+    hashed_blocked = ''
+    for keys in last_block:
+        value = last_block[keys]
+        hashed_blocked = hashed_blocked + str(value)
+    print (hashed_blocked)
+    block = {'previous_hash': 'hashed_block',
+             'index': len(blockchain),
+             'transaction': open_transactions
+             }
+    blockchain.append(block)
+
 
 
 def get_transaction_value():
@@ -44,28 +60,28 @@ def print_block_elements():
         print('*' * 20)
 
 
-def verify_chain():
-    block_index = 0
-    is_valid = True
-    for block in blockchain:
-        if block_index == 0:
-            block_index += 1
-            continue
-        elif block[0] == blockchain[block_index - 1]:
-            is_valid = True
-        else:
-            is_valid = False
-            break
-        block_index += 1
-    return is_valid
-
+#def verify_chain():
+#    block_index = 0
+#    is_valid = True
+#    for block in blockchain:
+#       if block_index == 0:
+#            block_index += 1
+#            continue
+#        elif block[0] == blockchain[block_index - 1]:
+#            is_valid = True
+#       else:
+#           is_valid = False
+#            break
+#       block_index += 1
+#    return is_valid
 
 waiting_for_input = True
 
 while waiting_for_input:
     print('please choose')
-    print('1: add a new transaction value')
-    print('2 print the blockchain blocks')
+    print('1: Add a new transaction value')
+    print('2:Mine a New Block')
+    print('3:Output Blocks')
     print('h:Manipulate the chain')
     print('q:Exit')
     user_choice = get_user_choice()
@@ -76,6 +92,8 @@ while waiting_for_input:
         print(open_transactions)
         # Adding the transaction amount to the block chain
     elif user_choice == '2':
+        mine_block()
+    elif user_choice == '3':
         print_block_elements()
     elif user_choice == 'h':
         # securing the block chain
@@ -83,11 +101,11 @@ while waiting_for_input:
             blockchain[0] = [2]
     elif user_choice == 'q':
         waiting_for_input = False
-    else:
+        #else:
         print('Your input is invalid')
-    if not verify_chain():
-        print('invalid blockchain')
-        break
+#    if not verify_chain():
+#        print('invalid blockchain')
+#        break
     else:
         print('User left!')
 
