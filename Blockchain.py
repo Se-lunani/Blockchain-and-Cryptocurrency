@@ -60,11 +60,12 @@ def mine_block():
         'recipient':owner,
         'amount':MINING_REWARD
     }
+    copied_transactions = open_transactions
     open_transactions.append(reward_transaction)
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
              'transaction': open_transactions
-             }
+    }
     blockchain.append(block)
     return True
 
