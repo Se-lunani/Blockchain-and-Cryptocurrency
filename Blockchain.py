@@ -1,4 +1,6 @@
 # initializing the blockchain list
+MINING_REWARD = 10
+
 genesis_block = {
         'previous_hash':'',
         'index': 0,
@@ -21,11 +23,9 @@ def get_balance(participant):
     tx_recipient = [[tx['amount']for tx in block['transaction']if tx ['recipient']== participant]for block in blockchain]
     amount_received = 0
     for tx in tx_recipient:
-        if len(tx)>0:
-            amount_sent+= tx[0]
-    return  amount_received - amount_sent
-
-
+        if len(tx) > 0:
+            amount_received += tx[0]
+    return amount_received - amount_sent
 
 def get_last_blockchain_value():
     if len(blockchain) < 1:
@@ -33,8 +33,7 @@ def get_last_blockchain_value():
 
     return blockchain[-1]
 
-
-def add_transaction (recipient, sender=owner,amount=1.0):
+def add_transaction(recipient, sender=owner,amount=1.0):
     transaction = {
         'sender': sender,
         'recipient': recipient,
@@ -43,10 +42,15 @@ def add_transaction (recipient, sender=owner,amount=1.0):
     participants.add(sender)
     participants.add(recepient)
 
-
 def mine_block():
     last_block = blockchain[-1]
     hashed_block = hash_block(last_block)
+    reward_transaction = {
+        'sender': 'MINING',
+        'recipient':owner,
+        'amount':MINING_REWARD
+    }
+    open_transactions.append(reward_transaction)
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
              'transaction': open_transactions
@@ -54,20 +58,15 @@ def mine_block():
     blockchain.append(block)
     return True
 
-
-
-
 def get_transaction_value():
     # gets user input, transforms it from a string to a float and stores it
     tx_recipient = input('Enter the recipient of the Transaction:')
     tx_amount = float(input('Enter your Transaction Amount PLease:'))
     return tx_recipient, tx_amount
 
-
 def get_user_choice():
     user_input = input('your choice :')
     return user_input
-
 
 def print_block_elements():
     # output the blockchain list to the console
@@ -76,7 +75,6 @@ def print_block_elements():
         print(block)
     else:
         print('*' * 20)
-
 
 def verify_chain():
     for (index,block) in enumerate(blockchain):
