@@ -136,10 +136,10 @@ while waiting_for_input:
     elif user_choice == 'h':
         # securing the block chain
         if len(blockchain) >= 1:
-            blockchain[0] ={
-                'previous_hash':'',
-                'index':0,
-                'transactions':[{'sender':'chris','recipient':'Mwami','amount':500}]
+            blockchain[0] = {
+                'previous_hash': '',
+                'index': 0,
+                'transactions': [{'sender': 'chris', 'recipient': 'Mwami', 'amount': 500}]
             }
 
     elif user_choice == 'q':
@@ -148,7 +148,7 @@ while waiting_for_input:
         print('Your input is invalid')
     if not verify_chain():
         print_block_elements()
-        print ('invalid blockchain!')
+        print('invalid blockchain!')
         break
     print(get_balance('Evan'))
 else:
