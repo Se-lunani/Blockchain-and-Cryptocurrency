@@ -8,7 +8,8 @@ MINING_REWARD = 10
 genesis_block = {
     'previous_hash': '',
     'index': 0,
-    'transaction': []
+    'transaction': [],
+    'proof':100
 }
 blockchain = [genesis_block]
 open_transactions = []
@@ -18,6 +19,20 @@ participants = {'Evan'}
 
 def hash_block(block):
     return hl.sha256(json.dumps(block).encode()).hexdigest()
+
+def valid_proof(transactions, last_hash, proof):
+    guess = str(transactions) + str(last_hash) + str(proof).encode()
+    guess_hash = hl.sha256(guess).hexdigest()
+    print(guess_hash)
+
+    return guess_hash[0:2] == '00'
+def proof_of_work():
+
+    last_block = blockchain[-1]
+    last_hash = hash_block(last_block)
+    proof = 0
+    while valid_proof(open_transactions,last_hash,proof):
+        proof +=1
 
 
 def get_balance(participant):
@@ -59,7 +74,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
 def mine_block():
     last_block = blockchain[-1]
     hashed_block = hash_block(last_block)
-    print(hashed_block)
+    proof = proof_of_work()
     reward_transaction = {
         'sender': 'MINING',
         'recipient': owner,
@@ -69,7 +84,8 @@ def mine_block():
     copied_transactions.append(reward_transaction)
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
-             'transaction': copied_transactions
+             'transaction': copied_transactions,
+             'proof': proof
              }
     blockchain.append(block)
     return True
