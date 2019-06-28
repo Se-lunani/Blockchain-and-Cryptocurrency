@@ -130,7 +130,7 @@ while waiting_for_input:
         print (participants)
     elif user_choice =='5':
         if verify_transactions():
-            print ('all transactions are valid')
+            print('all transactions are valid')
         else:
             print('There are invalid transactions')
     elif user_choice == 'h':
@@ -150,7 +150,7 @@ while waiting_for_input:
         print_block_elements()
         print('invalid blockchain!')
         break
-    print(get_balance('Evan'))
+    print('Balance of {}: {:6.2f}'.format('Evan', get_balance('Evan')))
 else:
         print('User left!')
 
