@@ -1,11 +1,12 @@
 import functools
+
 # initializing the blockchain list
 MINING_REWARD = 10
 
 genesis_block = {
-        'previous_hash':'',
-        'index': 0,
-        'transaction': []
+    'previous_hash': '',
+    'index': 0,
+    'transaction': []
 }
 blockchain = [genesis_block]
 open_transactions = []
@@ -15,14 +16,19 @@ participants = {'Evan'}
 
 def hash_block(block):
     return '-'.join([str(block[key]) for key in block])
+
+
 def get_balance(participant):
-    tx_sender = [[tx['amount']for tx in block['transaction']if tx['sender']== participant]for block in blockchain]
-    open_tx_sender = [tx['amount']for tx in open_transactions if tx['sender']== participant]
+    tx_sender = [[tx['amount'] for tx in block['transaction'] if tx['sender'] == participant] for block in blockchain]
+    open_tx_sender = [tx['amount'] for tx in open_transactions if tx['sender'] == participant]
     tx_sender.append(open_tx_sender)
-    amount_sent = functools.reduce(lambda tx_sum, tx_amt: tx_sum + tx_amt[0] if len(tx_amt>0)>0 else 0, tx_sender, 0)
-    tx_recipient = [[tx['amount']for tx in block['transaction']if tx ['recipient']== participant]for block in blockchain]
-    amount_received = amount_sent = functools.reduce(lambda tx_sum, tx_amt: tx_sum + tx_amt[0] if len(tx_amt>0)>0 else 0, tx_recipient, 0)
+    amount_sent = functools.reduce(lambda tx_sum, tx_amt: tx_sum + tx_amt[0] if len(tx_amt) > 0 else 0, tx_sender, 0)
+    tx_recipient = [[tx['amount'] for tx in block['transaction'] if tx['recipient'] == participant] for block in
+                    blockchain]
+    amount_received = functools.reduce(
+        lambda tx_sum, tx_amt: tx_sum + tx_amt[0] if len(tx_amt) > 0 else 0, tx_recipient, 0)
     return amount_received - amount_sent
+
 
 def get_last_blockchain_value():
     if len(blockchain) < 1:
@@ -30,12 +36,13 @@ def get_last_blockchain_value():
 
     return blockchain[-1]
 
+
 def verify_transaction(transaction):
     sender_balance = get_balance(transaction['sender'])
-    return sender_balance>=transaction['amount']
+    return sender_balance >= transaction['amount']
 
 
-def add_transaction(recipient, sender=owner,amount=1.0):
+def add_transaction(recipient, sender=owner, amount=1.0):
     transaction = {
         'sender': sender,
         'recipient': recipient,
@@ -47,22 +54,24 @@ def add_transaction(recipient, sender=owner,amount=1.0):
         return True
     return False
 
+
 def mine_block():
     last_block = blockchain[-1]
     hashed_block = hash_block(last_block)
     reward_transaction = {
         'sender': 'MINING',
-        'recipient':owner,
-        'amount':MINING_REWARD
+        'recipient': owner,
+        'amount': MINING_REWARD
     }
     copied_transactions = open_transactions[:]
     copied_transactions.append(reward_transaction)
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
              'transaction': copied_transactions
-    }
+             }
     blockchain.append(block)
     return True
+
 
 def get_transaction_value():
     # gets user input, transforms it from a string to a float and stores it
@@ -70,9 +79,11 @@ def get_transaction_value():
     tx_amount = float(input('Enter your Transaction Amount PLease:'))
     return tx_recipient, tx_amount
 
+
 def get_user_choice():
     user_input = input('your choice :')
     return user_input
+
 
 def print_block_elements():
     # output the blockchain list to the console
@@ -82,17 +93,18 @@ def print_block_elements():
     else:
         print('*' * 20)
 
+
 def verify_chain():
-    for (index,block) in enumerate(blockchain):
+    for (index, block) in enumerate(blockchain):
         if index == 0:
             continue
-        if block['previous_hash']!=hash_block(blockchain[index-1]):
+        if block['previous_hash'] != hash_block(blockchain[index - 1]):
             return False
     return True
+
+
 def verify_transactions():
-    return all([verify_transaction(tx)for tx in open_transactions])
-
-
+    return all([verify_transaction(tx) for tx in open_transactions])
 
 
 waiting_for_input = True
@@ -122,8 +134,8 @@ while waiting_for_input:
     elif user_choice == '3':
         print_block_elements()
     elif user_choice == '4':
-        print (participants)
-    elif user_choice =='5':
+        print(participants)
+    elif user_choice == '5':
         if verify_transactions():
             print('all transactions are valid')
         else:
@@ -147,6 +159,6 @@ while waiting_for_input:
         break
     print('Balance of {}: {:6.2f}'.format('Evan', get_balance('Evan')))
 else:
-        print('User left!')
+    print('User left!')
 
 print('Done!')
