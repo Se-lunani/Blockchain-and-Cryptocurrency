@@ -176,7 +176,7 @@ while waiting_for_input:
     elif user_choice == 'q':
         waiting_for_input = False
     else:
-        print('Your input is invalid')
+        print('Your input is Wrong')
     if not verify_chain():
         print_block_elements()
         print('invalid blockchain!')
