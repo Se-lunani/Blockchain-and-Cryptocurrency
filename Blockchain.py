@@ -141,6 +141,7 @@ while waiting_for_input:
     print('4:Output Participants')
     print('5:check transaction validity')
     print('h:Manipulate the chain')
+    print('6: something fun')
     print('q:Exit')
     user_choice = get_user_choice()
     if user_choice == '1':
@@ -162,6 +163,7 @@ while waiting_for_input:
     elif user_choice == '5':
         if verify_transactions():
             print('all transactions are valid')
+
         else:
             print('There are invalid transactions')
     elif user_choice == 'h':
@@ -172,6 +174,8 @@ while waiting_for_input:
                 'index': 0,
                 'transactions': [{'sender': 'chris', 'recipient': 'Mwami', 'amount': 500}]
             }
+    elif user_choice == '6':
+        print('We all love python')
 
     elif user_choice == 'q':
         waiting_for_input = False
