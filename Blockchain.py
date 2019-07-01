@@ -1,7 +1,7 @@
 from functools import  reduce
 import hashlib as hl
+import json
 from collections import OrderedDict
-
 from hash_util import hash_string_256, hash_block
 
 # initializing the blockchain list
@@ -20,20 +20,20 @@ participants = {'Evan'}
 
 def load_data():
     with open('blockchain.txt', mode = 'r') as f:
-        file_content = f.readline()
+        file_content = f.readlines()
         global blockchain
         global open_transactions
-        blockchain = file_content[0]
-        open_transactions = file_content[1]
+        blockchain = json.loads(file_content[0][:-1])
+        open_transactions = json.loads(file_content[1])
 
 load_data()
 
 
 def save_data():
     with open('blockchain.txt', mode = 'w') as f:
-        f.write(str(blockchain))
+        f.write(json.dumps(blockchain))
         f.write('\n')
-        f.write(str(open_transactions))
+        f.write(json.dumps(open_transactions))
 
 
 
@@ -109,7 +109,7 @@ def mine_block():
              'proof': proof
              }
     blockchain.append(block)
-    save_data()
+
     return True
 
 
@@ -174,6 +174,7 @@ while waiting_for_input:
     elif user_choice == '2':
         if mine_block():
             open_transactions = []
+            save_data()
     elif user_choice == '3':
         print_block_elements()
     elif user_choice == '4':
