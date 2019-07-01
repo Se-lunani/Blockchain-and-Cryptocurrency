@@ -11,12 +11,29 @@ genesis_block = {
     'previous_hash': '',
     'index': 0,
     'transaction': [],
-    'proof':100
+    'proof' : 100
 }
 blockchain = [genesis_block]
 open_transactions = []
 owner = 'Evan'
 participants = {'Evan'}
+
+def load_data():
+    with open('blockchain.txt', mode = 'r') as f:
+        file_content = f.readline()
+        global blockchain
+        global open_transactions
+        blockchain = file_content[0]
+        open_transactions = file_content[1]
+
+load_data()
+
+
+def save_data():
+    with open('blockchain.txt', mode = 'w') as f:
+        f.write(str(blockchain))
+        f.write('\n')
+        f.write(str(open_transactions))
 
 
 
@@ -69,6 +86,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         open_transactions.append(transaction)
         participants.add(sender)
         participants.add(recepient)
+        save_data()
         return True
     return False
 
@@ -91,6 +109,7 @@ def mine_block():
              'proof': proof
              }
     blockchain.append(block)
+    save_data()
     return True
 
 
@@ -141,13 +160,12 @@ while waiting_for_input:
     print('4:Output Participants')
     print('5:check transaction validity')
     print('h:Manipulate the chain')
-    print('6: something fun')
     print('q:Exit')
     user_choice = get_user_choice()
     if user_choice == '1':
         tx_data = get_transaction_value()
         recepient, amount = tx_data
-        if add_transaction(recepient,amount=amount):
+        if add_transaction(recepient, amount=amount):
             print('Transaction Added')
         else:
             print('Transaction Failed')
@@ -174,8 +192,7 @@ while waiting_for_input:
                 'index': 0,
                 'transactions': [{'sender': 'chris', 'recipient': 'Mwami', 'amount': 500}]
             }
-    elif user_choice == '6':
-        print('We all love python')
+
 
     elif user_choice == 'q':
         waiting_for_input = False
