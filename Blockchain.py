@@ -1,7 +1,6 @@
-from functools import  reduce
+from functools import reduce
 import hashlib as hl
 import json
-import pickle
 from collections import OrderedDict
 from hash_util import hash_string_256, hash_block
 
@@ -28,7 +27,7 @@ def load_data():
         updated_blockchain = []
         for block in blockchain:
             updated_block = {
-                'previous_hash': block ['previous_hash'],
+                'previous_hash': block['previous_hash'],
                 'index': block['index'],
                 'proof': block['proof'],
                 'transactions': [OrderedDict([('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])]) for tx in block['transactions']]
@@ -47,12 +46,10 @@ def load_data():
 
 
 def save_data():
-    with open('blockchain.txt', mode = 'w') as f:
+    with open('blockchain.txt', mode='w') as f:
         f.write(json.dumps(blockchain))
         f.write('\n')
         f.write(json.dumps(open_transactions))
-
-
 
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
