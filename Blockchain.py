@@ -15,8 +15,8 @@ genesis_block = {
 }
 blockchain = [genesis_block]
 open_transactions = []
-owner = 'Evan_Mwami'
-participants = {'Evan_Mwami'}
+owner = 'Evan'
+participants = {'Evan'}
 
 #def load_data():
 #    with open('blockchain.txt', mode='r') as f:
