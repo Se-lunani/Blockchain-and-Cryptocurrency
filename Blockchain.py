@@ -18,46 +18,38 @@ open_transactions = []
 owner = 'Evan'
 participants = {'Evan'}
 
-#def load_data():
-#    with open('blockchain.txt', mode='r') as f:
-#        file_content = f.readlines()
-#        global blockchain
-#        global open_transactions
-#        blockchain = json.loads(file_content[0][:-1])
-#        updated_blockchain = []
-#        for block in blockchain:
-#            updated_block = {
-#                'previous_hash': block['previous_hash'],
-#                'index': block['index'],
-#                'proof': block['proof'],
-#                'transactions': [OrderedDict([('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])]) for tx in block['transactions']]
-#            }
-#            updated_blockchain.append(updated_block)
-#        blockchain = updated_blockchain
-#        open_transactions = json.loads(file_content[1])
-#        updated_transactions = []
-#        for tx in open_transactions:
-#            updated_transaction = OrderedDict(
-#                [('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])])
-#            updated_transaction.append(updated_transaction)
-#        open_transactions = updated_transactions
-
-#    load_data()
-
-def load_data():
-    with open('blockchain.txt', mode='r')as f:
-        file_content = f.readlines()
-        global  blockchain
-        global open_transactions
-        blockchain = json.loads(file_content[0][:-1])
-        open_transactions = json.loads(file_content[1])
-load_data()
-
 def save_data():
-    with open('blockchain.txt', mode='w')as f:
+    with open('blockchain.txt', mode='w') as f:
         f.write(json.dumps(blockchain))
         f.write('\n')
         f.write(json.dumps(open_transactions))
+
+def load_data():
+    with open('blockchain.txt', mode='r') as f:
+        file_content = f.readlines()
+        global blockchain
+        global open_transactions
+        blockchain =json.loads(file_content[0][:-1])
+        updated_blockchain = []
+        for block in blockchain :
+            updated_block = {
+            'previous_hash':block['previous_hash'],
+            'index': block ['index'],
+            'transaction': [OrderedDict(
+                [('sender',tx['sender']),('recipient', tx['recipient']),('amount',tx['amount'])])for tx in block ['transaction']]
+            }
+            updated_blockchain.append(updated_block)
+            blockchain = updated_blockchain
+        open_transactions = json.loads(file_content[1])
+        updated_transactions = []
+        for tx in open_transactions:
+            update_transactions = [OrderedDict(
+                [('sender',tx['sender']),('recipient', tx['recipient']),('amount',tx['amount'])])for tx in block ['transaction']]
+            update_transactions.append(updated_transactions)
+
+
+load_data()
+
 
 
 def valid_proof(transactions, last_hash, proof):
@@ -74,7 +66,7 @@ def proof_of_work():
     proof = 0
     while not valid_proof(open_transactions,last_hash,proof):
         proof += 1
-    return  proof
+    return proof
 
 
 def get_balance(participant):
@@ -205,7 +197,7 @@ while waiting_for_input:
     elif user_choice == '5':
         if verify_transactions():
             print('all transactions are valid')
-            save_data()
+            
         else:
             print('There are invalid transactions')
     elif user_choice == 'h':
