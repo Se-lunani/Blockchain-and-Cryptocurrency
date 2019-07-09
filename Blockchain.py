@@ -11,7 +11,7 @@ genesis_block = {
     'previous_hash': '',
     'index': 0,
     'transaction': [],
-    'proof' : 100
+    'proof': 100
 }
 blockchain = [genesis_block]
 open_transactions = []
@@ -50,12 +50,10 @@ def load_data():
 
 load_data()
 
-
-
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
     print(guess)
-    guess_hash = hash_string_256(guess)
+    guess_hash = hl.sha256(guess)
     print(guess_hash)
 
     return guess_hash[0:2] == '00'
@@ -123,7 +121,7 @@ def mine_block():
              'index': len(blockchain),
              'transaction': copied_transactions,
              'proof': proof
-             }
+    }
     blockchain.append(block)
     return True
 
@@ -155,7 +153,7 @@ def verify_chain():
             continue
         if block['previous_hash'] != hash_block(blockchain[index - 1]):
             return False
-        if not valid_proof(block['transaction'][:-1],block['previous_hash'],block['proof']):
+        if not valid_proof(block['transaction'][:-1], block['previous_hash'], block['proof']):
             print('Proof of Work is Invalid')
             return False
     return True
