@@ -53,16 +53,14 @@ load_data()
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
     print(guess)
-    guess_hash = hl.sha256(guess)
+    guess_hash = hl.sha256(guess).hexdigest()
     print(guess_hash)
-
     return guess_hash[0:2] == '00'
 def proof_of_work():
-
     last_block = blockchain[-1]
     last_hash = hash_block(last_block)
     proof = 0
-    while not valid_proof(open_transactions,last_hash,proof):
+    while not valid_proof(open_transactions, last_hash, proof):
         proof += 1
     return proof
 
@@ -114,7 +112,7 @@ def mine_block():
     #  'recipient': owner,
     #    'amount': MINING_REWARD
     #}
-    reward_transaction = OrderedDict([('sender', 'Mining'),('recipient', owner),('amount', MINING_REWARD)])
+    reward_transaction = OrderedDict([('sender', 'Mining'), ('recipient', owner), ('amount', MINING_REWARD)])
     copied_transactions = open_transactions[:]
     copied_transactions.append(reward_transaction)
     block = {'previous_hash': hashed_block,
