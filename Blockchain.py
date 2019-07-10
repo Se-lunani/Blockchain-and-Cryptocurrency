@@ -72,7 +72,7 @@ def get_balance(participant):
     amount_sent = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt) if len(tx_amt) > 0 else tx_sum + 0, tx_sender, 0)
     tx_recipient = [[tx['amount'] for tx in block['transaction'] if tx['recipient'] == participant] for block in
                     blockchain]
-    amount_received = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt) if len(tx_amt) > 0 else tx_sum +  0, tx_recipient, 0)
+    amount_received = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt) if len(tx_amt) > 0 else tx_sum + 0, tx_recipient, 0)
     return amount_received - amount_sent
 
 
@@ -120,6 +120,7 @@ def mine_block():
              'transaction': copied_transactions,
              'proof': proof
     }
+
     blockchain.append(block)
     return True
 
@@ -151,7 +152,7 @@ def verify_chain():
             continue
         if block['previous_hash'] != hash_block(blockchain[index - 1]):
             return False
-        if not valid_proof(block['transaction'][:-1], block['previous_hash'], block['proof']):
+/        if not valid_proof(block['transaction'][:-1], block['previous_hash'], block['proof']):
             print('Proof of Work is Invalid')
             return False
     return True
