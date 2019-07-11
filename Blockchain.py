@@ -35,6 +35,7 @@ def load_data():
             updated_block = {
             'previous_hash':block['previous_hash'],
             'index': block ['index'],
+            'proof':block['index'],
             'transaction': [OrderedDict(
                 [('sender',tx['sender']),('recipient', tx['recipient']),('amount',tx['amount'])])for tx in block ['transaction']]
             }
@@ -48,7 +49,7 @@ def load_data():
             update_transactions.append(updated_transactions)
 
 
-load_data()
+#load_data()
 
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
@@ -152,7 +153,7 @@ def verify_chain():
             continue
         if block['previous_hash'] != hash_block(blockchain[index - 1]):
             return False
-/        if not valid_proof(block['transaction'][:-1], block['previous_hash'], block['proof']):
+        if not valid_proof(block['transaction'][:-1], block['previous_hash'], block['proof']):
             print('Proof of Work is Invalid')
             return False
     return True
