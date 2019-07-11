@@ -35,7 +35,7 @@ def load_data():
             updated_block = {
             'previous_hash':block['previous_hash'],
             'index': block ['index'],
-            'proof':block['index'],
+            'proof':block['proof'],
             'transaction': [OrderedDict(
                 [('sender',tx['sender']),('recipient', tx['recipient']),('amount',tx['amount'])])for tx in block ['transaction']]
             }
@@ -49,7 +49,7 @@ def load_data():
             update_transactions.append(updated_transactions)
 
 
-#load_data()
+load_data()
 
 def valid_proof(transactions, last_hash, proof):
     guess = (str(transactions) + str(last_hash) + str(proof)).encode()
