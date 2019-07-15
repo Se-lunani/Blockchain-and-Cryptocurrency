@@ -37,7 +37,7 @@ def load_data():
             'index': block ['index'],
             'proof':block['proof'],
             'transaction': [OrderedDict(
-                [('sender',tx['sender']),('recipient', tx['recipient']),('amount',tx['amount'])])for tx in block ['transaction']]
+                [('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])])for tx in block['transaction']]
             }
             updated_blockchain.append(updated_block)
             blockchain = updated_blockchain
