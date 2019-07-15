@@ -31,7 +31,7 @@ def load_data():
         global open_transactions
         blockchain =json.loads(file_content[0][:-1])
         updated_blockchain = []
-        for block in blockchain :
+        for block in blockchain:
             updated_block = {
             'previous_hash':block['previous_hash'],
             'index': block ['index'],
