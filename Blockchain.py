@@ -57,10 +57,12 @@ def load_data():
 load_data()
 def save_data():
     try:
-    with open('blockchain.txt', mode='w') as f:
-        f.write(json.dumps(blockchain))
-        f.write('\n')
-        f.write(json.dumps(open_transactions))
+        with open('blockchain.txt', mode='w') as f:
+            f.write(json.dumps(blockchain))
+            f.write('\n')
+            f.write(json.dumps(open_transactions))
+    except IOError:
+        print('Saving Failed!')
 
 
 def valid_proof(transactions, last_hash, proof):
