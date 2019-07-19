@@ -6,7 +6,7 @@ import pickle
 
 # Import two functions from our hash_util.py file. Omit the ".py" in the import
 from hash_util import hash_string_256, hash_block
-
+from block import  Block
 # The reward we give to miners (for creating a new block)
 MINING_REWARD = 10
 
@@ -34,6 +34,10 @@ def load_data():
             # We need to convert  the loaded data because Transactions should use OrderedDict
             updated_blockchain = []
             for block in blockchain:
+                converted_tx = [OrderedDict(
+                        [('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])]) for tx in block['transactions']]
+
+                updated_block = Block(block['index'],block['previous_hash'], converted_tx, block['proof'], block['timestamp'] )
                 updated_block = {
                     'previous_hash': block['previous_hash'],
                     'index': block['index'],
@@ -53,12 +57,7 @@ def load_data():
             open_transactions = updated_transactions
     except IOError:
         # Our starting block for the blockchain
-        genesis_block = {
-            'previous_hash': '',
-            'index': 0,
-            'transactions': [],
-            'proof': 100
-        }
+        genesis_block = Block(0,'',[],100,0)
         # Initializing our (empty) blockchain list
         blockchain = [genesis_block]
         # Unhandled transactions
