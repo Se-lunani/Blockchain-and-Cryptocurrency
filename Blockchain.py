@@ -6,7 +6,8 @@ import pickle
 
 # Import two functions from our hash_util.py file. Omit the ".py" in the import
 from hash_util import hash_string_256, hash_block
-from block import  Block
+from block import Block
+
 # The reward we give to miners (for creating a new block)
 MINING_REWARD = 10
 
@@ -36,15 +37,7 @@ def load_data():
             for block in blockchain:
                 converted_tx = [OrderedDict(
                         [('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])]) for tx in block['transactions']]
-
-                updated_block = Block(block['index'],block['previous_hash'], converted_tx, block['proof'], block['timestamp'] )
-                updated_block = {
-                    'previous_hash': block['previous_hash'],
-                    'index': block['index'],
-                    'proof': block['proof'],
-                    'transactions': [OrderedDict(
-                        [('sender', tx['sender']), ('recipient', tx['recipient']), ('amount', tx['amount'])]) for tx in block['transactions']]
-                }
+                updated_block = Block(block['index'], block['previous_hash'], converted_tx, block['proof'], block['timestamp'])
                 updated_blockchain.append(updated_block)
             blockchain = updated_blockchain
             open_transactions = json.loads(file_content[1])
@@ -57,7 +50,7 @@ def load_data():
             open_transactions = updated_transactions
     except (IOError, IndexError):
         # Our starting block for the blockchain
-        genesis_block = Block(0,'',[],100,0)
+        genesis_block = Block(0, '', [], 100, 0)
         # Initializing our (empty) blockchain list
         blockchain = [genesis_block]
         # Unhandled transactions
@@ -73,8 +66,8 @@ def save_data():
     """Save blockchain + open transactions snapshot to a file."""
     try:
         with open('blockchain.txt', mode='w') as f:
-            savable_chain = [block.__dict__ for block in blockchain]
-            f.write(json.dumps(savable_chain))
+            saveable_chain = [block.__dict__ for block in blockchain]
+            f.write(json.dumps(saveable_chain))
             f.write('\n')
             f.write(json.dumps(open_transactions))
             # save_data = {
@@ -207,7 +200,7 @@ def mine_block():
     # This ensures that if for some reason the mining should fail, we don't have the reward transaction stored in the open transactions
     copied_transactions = open_transactions[:]
     copied_transactions.append(reward_transaction)
-    block = Block(len(blockchain),hashed_block,copied_transactions, proof)
+    block = Block(len(blockchain), hashed_block, copied_transactions, proof)
     blockchain.append(block)
     return True
 
@@ -289,7 +282,6 @@ while waiting_for_input:
             print('All transactions are valid')
         else:
             print('There are invalid transactions')
-
     elif user_choice == 'q':
         # This will lead to the loop to exist because it's running condition becomes False
         waiting_for_input = False
