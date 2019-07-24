@@ -87,7 +87,7 @@ def valid_proof(transactions, last_hash, proof):
         :proof: The proof number we're testing.
     """
     # Create a string with all the hash inputs
-    guess = (str([tx.to_ordered_dict()]) + str(last_hash) + str(proof)).encode()
+    guess = (str() + str(last_hash) + str(proof)).encode()
     # Hash the string
     # IMPORTANT: This is NOT the same hash as will be stored in the previous_hash. It's a not a block's hash. It's only used for the proof-of-work algorithm.
     guess_hash = hash_string_256(guess)
@@ -115,20 +115,20 @@ def get_balance(participant):
     """
     # Fetch a list of all sent coin amounts for the given person (empty lists are returned if the person was NOT the sender)
     # This fetches sent amounts of transactions that were already included in blocks of the blockchain
-    tx_sender = [[tx['amount'] for tx in block.transactions
-                  if tx['sender'] == participant] for block in blockchain]
+    tx_sender = [[tx.amount for tx in block.transactions
+                  if tx.sender == participant] for block in blockchain]
     # Fetch a list of all sent coin amounts for the given person (empty lists are returned if the person was NOT the sender)
     # This fetches sent amounts of open transactions (to avoid double spending)
-    open_tx_sender = [tx['amount']
-                      for tx in open_transactions if tx['sender'] == participant]
+    open_tx_sender = [tx.amount
+                      for tx in open_transactions if tx.sender == participant]
     tx_sender.append(open_tx_sender)
     print(tx_sender)
     amount_sent = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt)
                          if len(tx_amt) > 0 else tx_sum + 0, tx_sender, 0)
     # This fetches received coin amounts of transactions that were already included in blocks of the blockchain
     # We ignore open transactions here because you shouldn't be able to spend coins before the transaction was confirmed + included in a block
-    tx_recipient = [[tx['amount'] for tx in block.transactions
-                     if tx['recipient'] == participant] for block in blockchain]
+    tx_recipient = [[tx.amount for tx in block.transactions
+                     if tx.recipient== participant] for block in blockchain]
     amount_received = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt)
                              if len(tx_amt) > 0 else tx_sum + 0, tx_recipient, 0)
     # Return the total balance
@@ -148,8 +148,8 @@ def verify_transaction(transaction):
     Arguments:
         :transaction: The transaction that should be verified.
     """
-    sender_balance = get_balance(transaction['sender'])
-    return sender_balance >= transaction['amount']
+    sender_balance = get_balance(transaction.sender)
+    return sender_balance >= transaction.amount
 
 # This function accepts two arguments.
 # One required one (transaction_amount) and one optional one (last_transaction)
@@ -169,12 +169,9 @@ def add_transaction(recipient, sender=owner, amount=1.0):
     #     'recipient': recipient,
     #     'amount': amount
     # }
-    transaction = OrderedDict(
-        [('sender', sender), ('recipient', recipient), ('amount', amount)])
+    transaction = Transaction(sender, recipient, amount)
     if verify_transaction(transaction):
         open_transactions.append(transaction)
-        participants.add(sender)
-        participants.add(recipient)
         save_data()
         return True
     return False
@@ -193,8 +190,7 @@ def mine_block():
     #     'recipient': owner,
     #     'amount': MINING_REWARD
     # }
-    reward_transaction = OrderedDict(
-        [('sender', 'MINING'), ('recipient', owner), ('amount', MINING_REWARD)])
+    reward_transaction = Transaction('MINING', owner, MINING_REWARD)
     # Copy transaction instead of manipulating the original open_transactions list
     # This ensures that if for some reason the mining should fail, we don't have the reward transaction stored in the open transactions
     copied_transactions = open_transactions[:]
