@@ -53,7 +53,7 @@ def load_data():
         # Unhandled transactions
         open_transactions = []
     finally:
-        print('Cleanup!')
+        print('Cleanup' )
 
 
 load_data()
