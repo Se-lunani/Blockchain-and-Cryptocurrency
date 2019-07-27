@@ -229,7 +229,8 @@ while waiting_for_input:
     elif user_choice == '3':
         print_blockchain_elements()
     elif user_choice == '4':
-        if verify_transactions():
+        verifier =  Verification()
+        if verifier.verify_transaction(open_transactions,get_balance):
             print('All transactions are valid')
         else:
             print('There are invalid transactions')
@@ -238,7 +239,8 @@ while waiting_for_input:
         waiting_for_input = False
     else:
         print('Input was invalid, please pick a value from the list!')
-    if not verify_chain():
+    verifier = Verification()
+    if not verifier.verify_transaction(blockchain):
         print_blockchain_elements()
         print('Invalid blockchain!')
         # Break out of the loop
