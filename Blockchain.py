@@ -6,6 +6,7 @@ import pickle
 
 # Import two functions from our hash_util.py file. Omit the ".py" in the import
 from verification import Verification
+from hash_util import hash_block
 from block import Block
 from transaction import Transaction
 
