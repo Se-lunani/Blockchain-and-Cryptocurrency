@@ -2,10 +2,12 @@ from uuid import uuid4
 from blockchain import Blockchain
 from verification import Verification
 
+
 class Node:
     def __init__(self):
         self.blockchain = Blockchain(uuid4())
-        self.id = uuid4()
+        #self.id = str(uuid4())
+        self.id = 'Mwami'
         self.blockchain = Blockchain(self.id)
 
     def get_transaction_value(self):
@@ -45,7 +47,7 @@ class Node:
                 tx_data = self.get_transaction_value()
                 recipient, amount = tx_data
                 # Add the transaction amount to the blockchain
-                if self.blockchain.add_transaction(recipient, self.id,  amount=amount):
+                if self.blockchain.add_transaction(recipient, self.id, amount=amount):
                     print('Added transaction!')
                 else:
                     print('Transaction failed!')
@@ -76,3 +78,5 @@ class Node:
             print('User left!')
 
         print('Done!')
+node = Node()
+node.listen_for_input()

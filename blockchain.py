@@ -61,7 +61,8 @@ class Blockchain:
         try:
             with open('blockchain.txt', mode='w') as f:
                 saveable_chain = [block.__dict__ for block in [Block(block_el.index, block_el.previous_hash, [
-                    tx.__dict__ for tx in block_el.transactions], block_el.proof, block_el.timestamp) for block_el in self.chain]]
+                    tx.__dict__ for tx in block_el.transactions], block_el.proof, block_el.timestamp) for block_el in
+                                                               self.chain]]
                 f.write(json.dumps(saveable_chain))
                 f.write('\n')
                 saveable_tx = [tx.__dict__ for tx in self.open_transactions]
@@ -100,13 +101,13 @@ class Blockchain:
         tx_sender.append(open_tx_sender)
         print(tx_sender)
         amount_sent = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt)
-                             if len(tx_amt) > 0 else tx_sum + 0, tx_sender, 0)
+        if len(tx_amt) > 0 else tx_sum + 0, tx_sender, 0)
         # This fetches received coin amounts of transactions that were already included in blocks of the blockchain
         # We ignore open transactions here because you shouldn't be able to spend coins before the transaction was confirmed + included in a block
         tx_recipient = [[tx.amount for tx in block.transactions
                          if tx.recipient == participant] for block in self.chain]
         amount_received = reduce(lambda tx_sum, tx_amt: tx_sum + sum(tx_amt)
-                                 if len(tx_amt) > 0 else tx_sum + 0, tx_recipient, 0)
+        if len(tx_amt) > 0 else tx_sum + 0, tx_recipient, 0)
         # Return the total balance
         return amount_received - amount_sent
 
