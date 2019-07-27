@@ -30,7 +30,7 @@ class Verification:
                 return False
         return True
 
-    def verify_transaction(self,transaction, get_balance):
+    def verify_transaction(self, transaction, get_balance):
         """Verify a transaction by checking whether the sender has sufficient coins.
 
         Arguments:
