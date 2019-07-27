@@ -142,7 +142,8 @@ def add_transaction(recipient, sender=owner, amount=1.0):
     #     'amount': amount
     # }
     transaction = Transaction(sender, recipient, amount)
-    if verify_transaction(transaction):
+    verifier = Verification()
+    if verifier.verify_transaction(transaction, get_balance):
         open_transactions.append(transaction)
         save_data()
         return True
