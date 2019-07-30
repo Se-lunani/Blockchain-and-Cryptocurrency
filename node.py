@@ -1,6 +1,6 @@
 from uuid import uuid4
 from blockchain import Blockchain
-from verification import Verification
+from Utility.verification import Verification
 
 
 class Node:
@@ -25,7 +25,7 @@ class Node:
     def print_blockchain_elements(self):
         """ Output all blocks of the blockchain. """
         # Output the blockchain list to the console
-        for block in self.blockchain.__chain:
+        for block in self.blockchain.get_chain():
             print('Outputting Block')
             print(block)
         else:
@@ -51,7 +51,7 @@ class Node:
                     print('Added transaction!')
                 else:
                     print('Transaction failed!')
-                print(self.blockchain.__open_transactions)
+                print(self.blockchain.get_open_transactions())
             elif user_choice == '2':
                 self.blockchain.mine_block()
             elif user_choice == '3':
@@ -66,7 +66,7 @@ class Node:
                 waiting_for_input = False
             else:
                 print('Input was invalid, please pick a value from the list!')
-            if not Verification.verify_chain(self.blockchain.__chain):
+            if not Verification.verify_chain(self.blockchain.get_chain()):
                 self.print_blockchain_elements()
                 print('Invalid blockchain!')
                 # Break out of the loop

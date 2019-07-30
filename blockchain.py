@@ -1,14 +1,12 @@
 from functools import reduce
-import hashlib as hl
 
 import json
-import pickle
 
 # Import two functions from our hash_util.py file. Omit the ".py" in the import
-from hash_util import hash_block
+from Utility.hash_util import hash_block
 from block import Block
 from transaction import Transaction
-from verification import Verification
+from Utility.verification import Verification
 
 # The reward we give to miners (for creating a new block)
 MINING_REWARD = 10
