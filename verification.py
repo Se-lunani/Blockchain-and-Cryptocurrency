@@ -19,14 +19,14 @@ class Verification:
         # This condition is of course defined by you. You could also require 10 leading 0s - this would take significantly longer (and this allows you to control the speed at which new blocks can be added)
         return guess_hash[0:2] == '00'
     @classmethod
-    def verify_chain(self, blockchain):
+    def verify_chain(cls, blockchain):
         """ Verify the current blockchain and return True if it's valid, False otherwise."""
         for (index, block) in enumerate(blockchain):
             if index == 0:
                 continue
             if block.previous_hash != hash_block(blockchain[index - 1]):
                 return False
-            if not self.valid_proof(block.transactions[:-1], block.previous_hash, block.proof):
+            if not cls.valid_proof(block.transactions[:-1], block.previous_hash, block.proof):
                 print('Proof of work is invalid')
                 return False
         return True
