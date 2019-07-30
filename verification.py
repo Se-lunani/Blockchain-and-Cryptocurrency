@@ -30,7 +30,7 @@ class Verification:
                 print('Proof of work is invalid')
                 return False
         return True
-
+    @staticmethod
     def verify_transaction(self, transaction, get_balance):
         """Verify a transaction by checking whether the sender has sufficient coins.
 
@@ -43,9 +43,9 @@ class Verification:
     # This function accepts two arguments.
     # One required one (transaction_amount) and one optional one (last_transaction)
     # The optional one is optional because it has a default value => [1]
-
-    def verify_transactions(self, open_transactions, get_balance):
+    @classmethod
+    def verify_transactions(cls, open_transactions, get_balance):
          """Verifies all open transactions."""
-         return all([self.verify_transaction(tx, get_balance) for tx in open_transactions])
+         return all([cls.verify_transaction(tx, get_balance) for tx in open_transactions])
 
 
