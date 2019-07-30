@@ -1,6 +1,7 @@
 from hash_util import hash_string_256, hash_block
 
 class Verification:
+    @staticmethod
     def valid_proof(self, transactions, last_hash, proof):
         """Validate a proof of work number and see if it solves the puzzle algorithm (two leading 0s)
 
