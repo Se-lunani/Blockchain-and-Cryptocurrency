@@ -8,7 +8,7 @@ class Verification:
         Arguments:
             :transactions: The transactions of the block for which the proof is created.
             :last_hash: The previous block's hash which will be stored in the current block.
-            :proof: The proof number we're testing.
+            :proof: The proof number we're testing.nketllkgnerl
         """
         # Create a string with all the hash inputs
         guess = (str([tx.to_ordered_dict() for tx in transactions]) + str(last_hash) + str(proof)).encode()
