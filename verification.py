@@ -2,7 +2,7 @@ from hash_util import hash_string_256, hash_block
 
 class Verification:
     @staticmethod
-    def valid_proof(self, transactions, last_hash, proof):
+    def valid_proof(transactions, last_hash, proof):
         """Validate a proof of work number and see if it solves the puzzle algorithm (two leading 0s)
 
         Arguments:
@@ -31,7 +31,7 @@ class Verification:
                 return False
         return True
     @staticmethod
-    def verify_transaction(self, transaction, get_balance):
+    def verify_transaction(transaction, get_balance):
         """Verify a transaction by checking whether the sender has sufficient coins.
 
         Arguments:
