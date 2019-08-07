@@ -25,7 +25,8 @@ class Blockchain:
         self.hosting_node = hosting_node_id
 
     def get_chain(self):
-        return  self.__chain[:]
+        return  self.__chain[:]pyth
+
     def get_open_transactions(self):
         return self.___open_transactions[:]
 
