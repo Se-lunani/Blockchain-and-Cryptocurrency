@@ -17,7 +17,7 @@ class Blockchain:
     def __init__(self, hosting_node_id):
         # Our starting block for the blockchain
         genesis_block = Block(0, '', [], 100, 0)
-        # Initializing our (empty) blockchain list
+
         self.__chain = [genesis_block]
         # Unhandled transactions
         self.___open_transactions = []
