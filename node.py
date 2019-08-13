@@ -12,7 +12,7 @@ class Node:
         self.blockchain = Blockchain(self.wallet.public_key)
     def get_transaction_value(self):
         """ Returns the input of the user (a new transaction amount) as a float. """
-        # Get the user input, transform it from a string to a float and store it in user_input
+        # Get the user input, transform it from a string to float and store it in user_input
         tx_recipient = input('Enter the recipient of the transaction: ')
         tx_amount = float(input('Your transaction amount please: '))
         return tx_recipient, tx_amount
