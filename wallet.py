@@ -37,7 +37,7 @@ class Wallet:
                 self.public_key = public_key
                 self.private_key = private_key
         except(IOError, IndexError):
-            print('Loading wallet failed')
+            print('Loading wallet Did not Occur')
 
     def generate_keys(self):
         private_key = RSA.generate(1024, Crypto.Random.new().read)
