@@ -60,7 +60,7 @@ class Blockchain:
                 # blockchain = file_content['chain']
                 # open_transactions = file_content['ot']
                 blockchain = json.loads(file_content[0][:-1])
-                # We need to convert  the loaded data because Transactions should use OrderedDict
+                #convert  the loaded data because Transactions should use OrderedDict
                 updated_blockchain = []
                 for block in blockchain:
                     converted_tx = [Transaction(
